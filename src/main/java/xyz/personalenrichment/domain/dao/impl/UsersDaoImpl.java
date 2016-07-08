@@ -15,8 +15,6 @@ import xyz.personalenrichment.domain.dao.UsersDao;
 import xyz.personalenrichment.domain.model.Users;
 import xyz.personalenrichment.domain.tx.DBTXResponse;
 
-import static xyz.personalenrichment.domain.tx.DBTXResponse.*;
-
 @Transactional
 @Repository
 public class UsersDaoImpl implements UsersDao {
