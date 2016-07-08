@@ -20,14 +20,12 @@ public class DBTXResponse {
 		this.type = type;
 	}
 	
-	
-
-	@Override
+/*	@Override
 	public String toString() {
 		//return "DBTXResponse [table=" + table + ", primary_key=" + primary_key + ", type=" + type + ", result=" + result
 		//		+ "]";
 		return Defs.jackson.toJson(this);
-	}
+	} */
 
 	public String getTable() {
 		return table;

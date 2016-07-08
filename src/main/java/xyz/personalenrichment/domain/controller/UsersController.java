@@ -30,7 +30,7 @@ public class UsersController {
 		return usersDao.getUserById(pk);
 	}
 	
-	@RequestMapping(method= RequestMethod.POST) //root
+/*	@RequestMapping(method= RequestMethod.POST) //root
 	public @ResponseBody Users create() {
 		return usersDao.createUser();
 	}
@@ -38,7 +38,7 @@ public class UsersController {
 	@RequestMapping(value= "/{pk}", method= RequestMethod.PATCH) //root
 	public @ResponseBody Users update(@PathVariable Short pk) {
 		return usersDao.updateUser(pk);
-	}
+	} */
 	
 	@RequestMapping(value= "/{pk}", method= RequestMethod.DELETE) //root
 	public @ResponseBody DBTXResponse delete(@PathVariable Short pk) {

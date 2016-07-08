@@ -9,7 +9,7 @@ import xyz.personalenrichment.domain.tx.DBTXResponse;
 public interface UsersDao {
 	public List<Users> indexUsers();
 	public Users getUserById(Short pk);
-	public Users createUser();
+/*	public Users createUser();
+	public Users updateUser(Short pk); */
 	public DBTXResponse deleteUser(Short pk);
-	public Users updateUser(Short pk);
 }
