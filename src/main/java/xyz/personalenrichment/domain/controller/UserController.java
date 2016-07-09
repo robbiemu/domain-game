@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import xyz.personalenrichment.domain.dao.UsersDao;
-import xyz.personalenrichment.domain.model.Matches;
-import xyz.personalenrichment.domain.model.Users;
+import xyz.personalenrichment.domain.dao.UserDao;
+import xyz.personalenrichment.domain.model.Match;
+import xyz.personalenrichment.domain.model.User;
 import xyz.personalenrichment.domain.tx.DBTXResponse;
 
 @RestController
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 	@Autowired
-	private UsersDao usersDao;
+	private UserDao userDao;
 
 	@RequestMapping(method= RequestMethod.GET) //root
-	public @ResponseBody List<Users> index() {
-		return usersDao.indexUsers();
+	public @ResponseBody List<User> index() {
+		return userDao.indexUsers();
 	}
 	
 	@RequestMapping(value = "/byId/{pk}", method = RequestMethod.GET)
-	public @ResponseBody Users byId(@PathVariable Short pk) {
-		return usersDao.getUserById(pk);
+	public @ResponseBody User byId(@PathVariable Short pk) {
+		return userDao.getUserById(pk);
 	}
 	
 	/*
@@ -65,6 +65,6 @@ public class UsersController {
 	 */
 	@RequestMapping(value= "/{pk}", method= RequestMethod.DELETE) //root
 	public @ResponseBody DBTXResponse delete(@PathVariable Short pk) {
-		return usersDao.deleteUser(pk);
+		return userDao.deleteUser(pk);
 	}
 }

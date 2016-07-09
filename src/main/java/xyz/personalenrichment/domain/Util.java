@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import xyz.personalenrichment.domain.model.Users;
+import xyz.personalenrichment.domain.model.User;
 
 public class Util {
 	/**
@@ -24,7 +24,7 @@ public class Util {
 	}
 
 	public static Map<String, Tuple<Class<?>, Object>> modelParamsFromCriteria(
-			Class<Users> clazz, String criteria) {
+			Class<User> clazz, String criteria) {
 		Map<String, String> rawCriteriaMap = paramsFromCriteria(criteria);
 		Map<String, Tuple<Class<?>, Object>> returnMap = new HashMap<>();
 		for (String key: rawCriteriaMap.keySet()) {

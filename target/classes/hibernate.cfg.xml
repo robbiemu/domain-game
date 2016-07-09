@@ -12,9 +12,9 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.search.autoregister_listeners">false</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
-        <mapping class="xyz.selfenrichment.domain.model.Matches" />
-        <mapping class="xyz.selfenrichment.domain.model.Moves" />
-        <mapping class="xyz.selfenrichment.domain.model.Users" />
-        <mapping class="xyz.selfenrichment.domain.model.MatchPlayersJt" />
+        <mapping class="xyz.selfenrichment.domain.model.User" />
+        <mapping class="xyz.selfenrichment.domain.model.MatchPlayerJt" />
+        <mapping class="xyz.selfenrichment.domain.model.Match" />
+        <mapping class="xyz.selfenrichment.domain.model.Move" />
     </session-factory>
 </hibernate-configuration>
