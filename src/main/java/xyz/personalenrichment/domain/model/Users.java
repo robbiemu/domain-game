@@ -1,5 +1,5 @@
 package xyz.personalenrichment.domain.model;
-// Generated Jul 8, 2016 9:14:20 AM by Hibernate Tools 5.1.0.Alpha1
+// Generated Jul 9, 2016 8:25:03 AM by Hibernate Tools 5.1.0.Alpha1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +27,8 @@ public class Users implements java.io.Serializable {
 	private String loginName;
 	private String password;
 	private String email;
-	private @JsonIgnore Set<Matches> matchesesForPlayerBId = new HashSet<Matches>(0);
-	private @JsonIgnore Set<Matches> matchesesForPlayerAId = new HashSet<Matches>(0);
+	private @JsonIgnore Set<Matches> matcheses = new HashSet<Matches>(0);
+	private @JsonIgnore Set<MatchPlayersJt> matchPlayersJts = new HashSet<MatchPlayersJt>(0);
 
 	public Users() {
 	}
@@ -40,14 +40,14 @@ public class Users implements java.io.Serializable {
 		this.email = email;
 	}
 
-	public Users(String displayName, String loginName, String password, String email,
-			Set<Matches> matchesesForPlayerBId, Set<Matches> matchesesForPlayerAId) {
+	public Users(String displayName, String loginName, String password, String email, Set<Matches> matcheses,
+			Set<MatchPlayersJt> matchPlayersJts) {
 		this.displayName = displayName;
 		this.loginName = loginName;
 		this.password = password;
 		this.email = email;
-		this.matchesesForPlayerBId = matchesesForPlayerBId;
-		this.matchesesForPlayerAId = matchesesForPlayerAId;
+		this.matcheses = matcheses;
+		this.matchPlayersJts = matchPlayersJts;
 	}
 
 	@Id
@@ -98,22 +98,22 @@ public class Users implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByPlayerBId")
-	public Set<Matches> getMatchesesForPlayerBId() {
-		return this.matchesesForPlayerBId;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<Matches> getMatcheses() {
+		return this.matcheses;
 	}
 
-	public void setMatchesesForPlayerBId(Set<Matches> matchesesForPlayerBId) {
-		this.matchesesForPlayerBId = matchesesForPlayerBId;
+	public void setMatcheses(Set<Matches> matcheses) {
+		this.matcheses = matcheses;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByPlayerAId")
-	public Set<Matches> getMatchesesForPlayerAId() {
-		return this.matchesesForPlayerAId;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	public Set<MatchPlayersJt> getMatchPlayersJts() {
+		return this.matchPlayersJts;
 	}
 
-	public void setMatchesesForPlayerAId(Set<Matches> matchesesForPlayerAId) {
-		this.matchesesForPlayerAId = matchesesForPlayerAId;
+	public void setMatchPlayersJts(Set<MatchPlayersJt> matchPlayersJts) {
+		this.matchPlayersJts = matchPlayersJts;
 	}
 
 }

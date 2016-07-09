@@ -15,5 +15,6 @@
         <mapping class="xyz.selfenrichment.domain.model.Matches" />
         <mapping class="xyz.selfenrichment.domain.model.Moves" />
         <mapping class="xyz.selfenrichment.domain.model.Users" />
+        <mapping class="xyz.selfenrichment.domain.model.MatchPlayersJt" />
     </session-factory>
 </hibernate-configuration>

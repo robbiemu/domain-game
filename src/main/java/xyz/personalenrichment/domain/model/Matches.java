@@ -1,5 +1,5 @@
 package xyz.personalenrichment.domain.model;
-// Generated Jul 8, 2016 9:14:20 AM by Hibernate Tools 5.1.0.Alpha1
+// Generated Jul 9, 2016 8:25:03 AM by Hibernate Tools 5.1.0.Alpha1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -27,26 +27,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Matches implements java.io.Serializable {
 
 	private Integer idmatches;
-	private @JsonIgnore Users usersByPlayerBId;
-	private @JsonIgnore Users usersByPlayerAId;
-	private Byte winner;
+	private Users users;
 	private Date dateFinished;
 	private @JsonIgnore Set<Moves> moveses = new HashSet<Moves>(0);
+	private @JsonIgnore Set<MatchPlayersJt> matchPlayersJts = new HashSet<MatchPlayersJt>(0);
 
 	public Matches() {
 	}
 
-	public Matches(Users usersByPlayerBId, Users usersByPlayerAId) {
-		this.usersByPlayerBId = usersByPlayerBId;
-		this.usersByPlayerAId = usersByPlayerAId;
+	public Matches(Users users) {
+		this.users = users;
 	}
 
-	public Matches(Users usersByPlayerBId, Users usersByPlayerAId, Byte winner, Date dateFinished, Set<Moves> moveses) {
-		this.usersByPlayerBId = usersByPlayerBId;
-		this.usersByPlayerAId = usersByPlayerAId;
-		this.winner = winner;
+	public Matches(Users users, Date dateFinished, Set<Moves> moveses, Set<MatchPlayersJt> matchPlayersJts) {
+		this.users = users;
 		this.dateFinished = dateFinished;
 		this.moveses = moveses;
+		this.matchPlayersJts = matchPlayersJts;
 	}
 
 	@Id
@@ -62,32 +59,13 @@ public class Matches implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "player_b_id", nullable = false)
-	public Users getUsersByPlayerBId() {
-		return this.usersByPlayerBId;
+	@JoinColumn(name = "winner", nullable = false)
+	public Users getUsers() {
+		return this.users;
 	}
 
-	public void setUsersByPlayerBId(Users usersByPlayerBId) {
-		this.usersByPlayerBId = usersByPlayerBId;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "player_a_id", nullable = false)
-	public Users getUsersByPlayerAId() {
-		return this.usersByPlayerAId;
-	}
-
-	public void setUsersByPlayerAId(Users usersByPlayerAId) {
-		this.usersByPlayerAId = usersByPlayerAId;
-	}
-
-	@Column(name = "winner")
-	public Byte getWinner() {
-		return this.winner;
-	}
-
-	public void setWinner(Byte winner) {
-		this.winner = winner;
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
 	@Temporal(TemporalType.DATE)
@@ -107,6 +85,15 @@ public class Matches implements java.io.Serializable {
 
 	public void setMoveses(Set<Moves> moveses) {
 		this.moveses = moveses;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "matches")
+	public Set<MatchPlayersJt> getMatchPlayersJts() {
+		return this.matchPlayersJts;
+	}
+
+	public void setMatchPlayersJts(Set<MatchPlayersJt> matchPlayersJts) {
+		this.matchPlayersJts = matchPlayersJts;
 	}
 
 }

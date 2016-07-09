@@ -6,7 +6,9 @@ import xyz.personalenrichment.domain.model.Matches;
 
 public interface MatchesDao {
 
-	public List<Matches> indexMatches();
-
-	public Matches getMatchById(Short pk);
+	public List<Matches> readMatches();
+	public Matches readMatch(Integer pk);
+	public Matches createMatch(Matches match);
+	public Matches updateMatch(Integer pk, Matches match);
+	public Matches deleteMatch(Integer pk);
 }

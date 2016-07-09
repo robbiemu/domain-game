@@ -1,5 +1,6 @@
 package xyz.personalenrichment.domain.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -23,7 +24,7 @@ public class MatchesDaoImpl implements MatchesDao {
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<Matches> indexMatches() {
+	public List<Matches> readMatches() {
 		Session s = sessionFactory.getCurrentSession();
 		
 		String hql = "from Matches";
@@ -33,8 +34,33 @@ public class MatchesDaoImpl implements MatchesDao {
 	}
 
 	@Override
-	public Matches getMatchById(Short pk) {
+	public Matches readMatch(Integer pk) {
 		return sessionFactory.getCurrentSession().get(Matches.class, pk);
+	}
+
+	@Override
+	public Matches createMatch(Matches match) {
+		Serializable s = sessionFactory.getCurrentSession().save(match);
+
+		return sessionFactory.getCurrentSession().get(Matches.class, s);
+	}
+
+	@Override
+	public Matches updateMatch(Integer pk, Matches match) {
+		match.setIdmatches(pk);
+		
+		sessionFactory.getCurrentSession().update(match);
+		
+		return sessionFactory.getCurrentSession().get(Matches.class, pk);
+	}
+
+	@Override
+	public Matches deleteMatch(Integer pk) {
+		Matches m = sessionFactory.getCurrentSession().get(Matches.class, pk);
+		
+		sessionFactory.getCurrentSession().delete(m);
+		
+		return m;
 	}
 	
 }

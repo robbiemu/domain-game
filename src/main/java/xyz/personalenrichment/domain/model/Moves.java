@@ -1,5 +1,5 @@
 package xyz.personalenrichment.domain.model;
-// Generated Jul 8, 2016 9:14:20 AM by Hibernate Tools 5.1.0.Alpha1
+// Generated Jul 9, 2016 8:25:03 AM by Hibernate Tools 5.1.0.Alpha1
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
