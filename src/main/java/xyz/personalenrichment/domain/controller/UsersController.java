@@ -31,6 +31,8 @@ public class UsersController {
 	}
 	
 	/*
+	 * TODO - find a way to successfully change the response status without throwing an error
+	 * 
 	 * The action performed by the POST method might not result in a resource that can be identified by a 
 	 * URI. In this case, either 200 (OK) or 204 (No Content) is the appropriate response status, 
 	 * depending on whether or not the response includes an entity that describes the result. 
@@ -55,17 +57,14 @@ public class UsersController {
 	} */
 	
 	/*
+	 * TODO - find a way to successfully change the response status without throwing an error
+	 * 
 	 * A successful response SHOULD be 200 (OK) if the response includes an entity describing the status, 
 	 * 202 (Accepted) if the action has not yet been enacted, or 204 (No Content) if the action has been 
 	 * enacted but the response does not include an entity. 
 	 */
 	@RequestMapping(value= "/{pk}", method= RequestMethod.DELETE) //root
 	public @ResponseBody DBTXResponse delete(@PathVariable Short pk) {
-		DBTXResponse r = usersDao.deleteUser(pk);
-		if(r.getResult()) {
-			return @ResponseStatus(200) r;
-		} else {
-			return @ResponseStatus(202) r;
-		}
+		return usersDao.deleteUser(pk);
 	}
 }

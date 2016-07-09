@@ -1,6 +1,6 @@
 package xyz.personalenrichment.domain.tx;
 
-import xyz.personalenrichment.domain.Defs;
+import xyz.personalenrichment.domain.Util;
 
 public class DBTXResponse {
 	public static final String CREATE = "CREATE";
