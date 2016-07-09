@@ -12,19 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import xyz.personalenrichment.domain.dao.MatchesDao;
-import xyz.personalenrichment.domain.model.Matches;
+import xyz.personalenrichment.domain.dao.MatchDao;
+import xyz.personalenrichment.domain.model.Match;
+import xyz.personalenrichment.domain.model.MatchPlayerJt;
+import xyz.personalenrichment.domain.model.Move;
+import xyz.personalenrichment.domain.model.User;
 
 @Transactional
 @Repository
-public class MatchesDaoImpl implements MatchesDao {
-	private static Logger log = LoggerFactory.getLogger(MatchesDaoImpl.class);
+public class MatchDaoImpl implements MatchDao {
+	private static Logger log = LoggerFactory.getLogger(MatchDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<Matches> readMatches() {
+	public List<Match> readMatches() {
 		Session s = sessionFactory.getCurrentSession();
 		
 		String hql = "from Matches";
@@ -34,33 +37,110 @@ public class MatchesDaoImpl implements MatchesDao {
 	}
 
 	@Override
-	public Matches readMatch(Integer pk) {
-		return sessionFactory.getCurrentSession().get(Matches.class, pk);
+	public Match readMatch(Integer pk) {
+		return sessionFactory.getCurrentSession().get(Match.class, pk);
 	}
 
 	@Override
-	public Matches createMatch(Matches match) {
+	public Match createMatch(Match match) {
 		Serializable s = sessionFactory.getCurrentSession().save(match);
 
-		return sessionFactory.getCurrentSession().get(Matches.class, s);
+		return sessionFactory.getCurrentSession().get(Match.class, s);
 	}
 
 	@Override
-	public Matches updateMatch(Integer pk, Matches match) {
-		match.setIdmatches(pk);
+	public Match updateMatch(Integer pk, Match match) {
+		match.setIdmatch(pk);
 		
 		sessionFactory.getCurrentSession().update(match);
 		
-		return sessionFactory.getCurrentSession().get(Matches.class, pk);
+		return sessionFactory.getCurrentSession().get(Match.class, pk);
 	}
 
 	@Override
-	public Matches deleteMatch(Integer pk) {
-		Matches m = sessionFactory.getCurrentSession().get(Matches.class, pk);
+	public Match deleteMatch(Integer pk) {
+		Match m = sessionFactory.getCurrentSession().get(Match.class, pk);
 		
 		sessionFactory.getCurrentSession().delete(m);
 		
 		return m;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Move> readMoves(Integer pk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+		String hql = "from Move where matchid = :matchid";
+		Query q = s.createQuery(hql);
+		q.setInteger("matchId", pk);
+
+		return q.list();
+	}
+
+	@Override
+	public Match createWinner(Integer pk, Integer upk) {
+		Match m = sessionFactory.getCurrentSession().get(Match.class, pk);
+		User w = sessionFactory.getCurrentSession().get(User.class, upk);
+		m.setUser(w);
+		return m;
+	}
+
+	@Override
+	public Match deleteWinner(Integer pk, Integer upk) {
+		Match m = sessionFactory.getCurrentSession().get(Match.class, pk);
+		m.setUser(null);
+		return m;
+	}
+
+	@Override
+	public User readWinner(Integer pk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+		String hql = "from ma.winner where matchid = :matchid";
+		Query q = s.createQuery(hql);
+		q.setInteger("matchId", pk);
+
+		return (User) q.list().get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> readPlayers(Integer pk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+		String hql = "select mp.user from MatchPlayerJt mp where mp.match.matchid = :matchId";
+		Query q = s.createQuery(hql);
+		q.setInteger("matchId", pk);
+
+		return q.list();
+	}
+
+	@Override
+	public Match createPlayer(Integer pk, Integer upk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+		MatchPlayerJt mp = new MatchPlayerJt();
+		Match m = s.get(Match.class, pk);
+
+		mp.setMatch(m);
+		mp.setUser(s.get(User.class, upk));
+
+		s.save(mp);
+
+		return m;
+	}
+
+	@Override
+	public Match deletePlayer(Integer pk, Integer upk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+		String hql = "from MatchPlayerJt mp where mp.match.matchid = :matchId and mp.user.userid = :userid";
+		Query q = s.createQuery(hql);
+		q.setInteger("matchId", pk);
+		q.setInteger("userId", upk);
+		
+		return s.get(Match.class, pk);
 	}
 	
 }

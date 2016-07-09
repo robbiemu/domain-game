@@ -11,19 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import xyz.personalenrichment.domain.dao.MovesDao;
-import xyz.personalenrichment.domain.model.Moves;
+import xyz.personalenrichment.domain.dao.MoveDao;
+import xyz.personalenrichment.domain.model.Move;
 
 @Transactional
 @Repository
-public class MovesDaoImpl implements MovesDao {
-	private static Logger log = LoggerFactory.getLogger(MovesDaoImpl.class);
+public class MoveDaoImpl implements MoveDao {
+	private static Logger log = LoggerFactory.getLogger(MoveDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<Moves> indexMoves() {
+	public List<Move> indexMoves() {
 		Session s = sessionFactory.getCurrentSession();
 		
 		String hql = "from Moves";
@@ -33,8 +33,8 @@ public class MovesDaoImpl implements MovesDao {
 	}
 
 	@Override
-	public Moves getMoveById(Short pk) {
-		return sessionFactory.getCurrentSession().get(Moves.class, pk);
+	public Move getMoveById(Short pk) {
+		return sessionFactory.getCurrentSession().get(Move.class, pk);
 	}
 	
 }

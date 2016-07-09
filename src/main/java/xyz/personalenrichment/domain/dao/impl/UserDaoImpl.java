@@ -17,20 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import xyz.personalenrichment.domain.Tuple;
 import xyz.personalenrichment.domain.Util;
-import xyz.personalenrichment.domain.dao.UsersDao;
-import xyz.personalenrichment.domain.model.Users;
+import xyz.personalenrichment.domain.dao.UserDao;
+import xyz.personalenrichment.domain.model.User;
 import xyz.personalenrichment.domain.tx.DBTXResponse;
 
 @Transactional
 @Repository
-public class UsersDaoImpl implements UsersDao {
-	private static Logger log = LoggerFactory.getLogger(UsersDaoImpl.class);
+public class UserDaoImpl implements UserDao {
+	private static Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<Users> indexUsers() {
+	public List<User> indexUsers() {
 		Session s = sessionFactory.getCurrentSession();
 		
 		String hql = "from Users";
@@ -40,33 +40,33 @@ public class UsersDaoImpl implements UsersDao {
 	}
 
 	@Override
-	public Users getUserById(Short pk) {
-		return sessionFactory.getCurrentSession().get(Users.class, pk);
+	public User getUserById(Short pk) {
+		return sessionFactory.getCurrentSession().get(User.class, pk);
 	}
 	
 	@Override
 	public DBTXResponse deleteUser(Short pk) {
 		sessionFactory.getCurrentSession().delete(pk);
-		return new DBTXResponse(isUserIdPresent(pk), Users.class.getSimpleName(), 
+		return new DBTXResponse(isUserIdPresent(pk), User.class.getSimpleName(), 
 				pk.toString(), DBTXResponse.DELETE);
 	}
 
 	private Boolean isUserIdPresent(Short pk) {
-		return (null != sessionFactory.getCurrentSession().get(Users.class, pk));
+		return (null != sessionFactory.getCurrentSession().get(User.class, pk));
 	}
 
 	@Override
-	public Users updateUser(Short pk, String criteria) {
-		Users updateUser = getUserById(pk);
+	public User updateUser(Short pk, String criteria) {
+		User updateUser = getUserById(pk);
 		
-		Map<String, Tuple<Class<?>, Object>> m = Util.modelParamsFromCriteria(Users.class, criteria);
+		Map<String, Tuple<Class<?>, Object>> m = Util.modelParamsFromCriteria(User.class, criteria);
 		String key;
 		try {
 			for(Entry<String, Tuple<Class<?>, Object>> e: m.entrySet()) {
 				key = e.getKey();
 				Tuple<Class<?>, Object> t = e.getValue();
 				
-				Method um = Users.class.getMethod(
+				Method um = User.class.getMethod(
 							"set" + 
 								key.substring(0, 1).toUpperCase() + 
 								key.substring(1), 
