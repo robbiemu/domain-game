@@ -74,11 +74,11 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<Move> readMatches(Integer pk) {
-		Session s = sessionFactory.getCurrentSession();
+		Session s = sessionFactory.getCurrentSession(); 
 		
-//		String hql = "from Match where matchid = :matchid";
+		String hql = "select jt.match from MatchPlayerJt jt where userid = :userid";
 		Query q = s.createQuery(hql);
-		q.setInteger("matchId", pk);
+		q.setInteger("userId", pk);
 
 		return q.list();
 
