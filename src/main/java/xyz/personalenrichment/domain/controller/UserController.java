@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import xyz.personalenrichment.domain.dao.UserDao;
 import xyz.personalenrichment.domain.model.Match;
+import xyz.personalenrichment.domain.model.Move;
 import xyz.personalenrichment.domain.model.User;
 import xyz.personalenrichment.domain.tx.DBTXResponse;
 
@@ -20,51 +22,42 @@ public class UserController {
 	@Autowired
 	private UserDao userDao;
 
-	@RequestMapping(method= RequestMethod.GET) //root
-	public @ResponseBody List<User> index() {
-		return userDao.indexUsers();
+	/* collections */
+	// read a list of users
+	@RequestMapping(method= RequestMethod.GET) 
+	public @ResponseBody List<User> getUsers() {
+		return userDao.readUsers();
 	}
 	
-	@RequestMapping(value = "/byId/{pk}", method = RequestMethod.GET)
-	public @ResponseBody User byId(@PathVariable Short pk) {
-		return userDao.getUserById(pk);
+	/* units */
+	// read a user
+	@RequestMapping(value = "/{pk}", method = RequestMethod.GET)
+	public @ResponseBody User getUser(@PathVariable Integer pk) {
+		return userDao.readUser(pk);
 	}
 	
-	/*
-	 * TODO - find a way to successfully change the response status without throwing an error
-	 * 
-	 * The action performed by the POST method might not result in a resource that can be identified by a 
-	 * URI. In this case, either 200 (OK) or 204 (No Content) is the appropriate response status, 
-	 * depending on whether or not the response includes an entity that describes the result. 
-	 *
-	 * If a resource has been created on the origin server, the response SHOULD be 201 (Created) and 
-	 * contain an entity which describes the status of the request and refers to the new resource, and a 
-	 * Location header (see section 14.30). 
-	 * 
-	 * Responses to this method are not cacheable, unless the response includes appropriate Cache-Control 
-	 * or Expires header fields. However, the 303 (See Other) response can be used to direct the user 
-	 * agent to retrieve a cacheable resource. 
-	 *
-	 */
-/*	@RequestMapping(value="?{criteria}", method= RequestMethod.POST) //root
-	public @ResponseBody Users create(@PathVariable String criteria) {
-		return usersDao.createUser(criteria);
+	// create a new user
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody User postUser(@RequestBody User user) {
+		return userDao.createUser(user);
 	}
-
-	@RequestMapping(value= "/{pk}?{criteria}", method= RequestMethod.PATCH) //root
-	public @ResponseBody Users update(@PathVariable Short pk, @PathVariable String criteria) {
-		return usersDao.updateUser(pk, criteria);
-	} */
 	
-	/*
-	 * TODO - find a way to successfully change the response status without throwing an error
-	 * 
-	 * A successful response SHOULD be 200 (OK) if the response includes an entity describing the status, 
-	 * 202 (Accepted) if the action has not yet been enacted, or 204 (No Content) if the action has been 
-	 * enacted but the response does not include an entity. 
-	 */
-	@RequestMapping(value= "/{pk}", method= RequestMethod.DELETE) //root
-	public @ResponseBody DBTXResponse delete(@PathVariable Short pk) {
+	// update an existing user
+	@RequestMapping(value = "/{pk}", method = RequestMethod.PATCH)
+	public @ResponseBody User patchUser(@PathVariable Integer pk, @RequestBody User user) {
+		return userDao.updateUser(pk, user);
+	}	
+	
+	// delete a user
+	@RequestMapping(value = "/{pk}", method = RequestMethod.DELETE)
+	public @ResponseBody User deleteUser(@PathVariable Integer pk) {
 		return userDao.deleteUser(pk);
+	}
+	
+	/* relations */
+	// get matches list for a user
+	@RequestMapping(value = "/{pk}/matches", method = RequestMethod.GET)
+	public @ResponseBody List<Move> getMatches(@PathVariable Integer pk) {
+		return userDao.readMatches(pk);
 	}
 }

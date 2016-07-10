@@ -36,6 +36,17 @@ public class MoveDaoImpl implements MoveDao {
 
 		return sessionFactory.getCurrentSession().get(Move.class, s);
 	}
+	
+	@Override
+	public Move createMove(Integer mpk, Move move) {
+		Session sess = sessionFactory.getCurrentSession();
+		Match ma = sess.get(Match.class, mpk);
+		move.setMatch(ma);
+
+		Serializable s = sess.save(move);
+
+		return sessionFactory.getCurrentSession().get(Move.class, s);
+	}
 
 	@Override
 	public Move updateMove(Integer pk, Move move) {
@@ -44,7 +55,6 @@ public class MoveDaoImpl implements MoveDao {
 		sessionFactory.getCurrentSession().update(move);
 		
 		return sessionFactory.getCurrentSession().get(Move.class, pk);
-
 	}
 
 	@Override
@@ -77,28 +87,37 @@ public class MoveDaoImpl implements MoveDao {
 
 		return (User) q.list().get(0);	}
 
+	/** associate a match to a move record */
 	@Override
-	public Match createMatch(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+	public Move createMatch(Integer pk, Match match) {
+		Move m = sessionFactory.getCurrentSession().get(Move.class, pk);
+		m.setMatch(match);
+		
+		return m;
 	}
 
 	@Override
-	public User createPlayer(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+	public Move createPlayer(Integer pk, User user) {
+		Move m = sessionFactory.getCurrentSession().get(Move.class, pk);
+		m.setUser(user);
+		
+		return m;
 	}
 
 	@Override
-	public Match deleteMatch(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+	public Move deleteMatch(Integer pk) {
+		Move m = sessionFactory.getCurrentSession().get(Move.class, pk);
+		m.setMatch(null);
+		
+		return m;
 	}
 
 	@Override
-	public User deletePlayer(Integer pk) {
-		// TODO Auto-generated method stub
-		return null;
+	public Move deletePlayer(Integer pk) {
+		Move m = sessionFactory.getCurrentSession().get(Move.class, pk);
+		m.setMatch(null);
+		
+		return m;
 	}
 	
 }

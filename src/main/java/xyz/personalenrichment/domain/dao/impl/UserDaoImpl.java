@@ -1,5 +1,6 @@
 package xyz.personalenrichment.domain.dao.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.personalenrichment.domain.Tuple;
 import xyz.personalenrichment.domain.Util;
 import xyz.personalenrichment.domain.dao.UserDao;
+import xyz.personalenrichment.domain.model.Match;
+import xyz.personalenrichment.domain.model.Move;
 import xyz.personalenrichment.domain.model.User;
 import xyz.personalenrichment.domain.tx.DBTXResponse;
 
@@ -30,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<User> indexUsers() {
+	public List<User> readUsers() {
 		Session s = sessionFactory.getCurrentSession();
 		
 		String hql = "from Users";
@@ -40,51 +43,45 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User getUserById(Short pk) {
+	public User readUser(Integer pk) {
 		return sessionFactory.getCurrentSession().get(User.class, pk);
 	}
-	
-	@Override
-	public DBTXResponse deleteUser(Short pk) {
-		sessionFactory.getCurrentSession().delete(pk);
-		return new DBTXResponse(isUserIdPresent(pk), User.class.getSimpleName(), 
-				pk.toString(), DBTXResponse.DELETE);
-	}
 
-	private Boolean isUserIdPresent(Short pk) {
-		return (null != sessionFactory.getCurrentSession().get(User.class, pk));
+	@Override
+	public User createUser(User user) {
+		Serializable s = sessionFactory.getCurrentSession().save(user);
+
+		return sessionFactory.getCurrentSession().get(User.class, s);
 	}
 
 	@Override
-	public User updateUser(Short pk, String criteria) {
-		User updateUser = getUserById(pk);
+	public User updateUser(Integer pk, User user) {
+		user.setIduser(pk);
 		
-		Map<String, Tuple<Class<?>, Object>> m = Util.modelParamsFromCriteria(User.class, criteria);
-		String key;
-		try {
-			for(Entry<String, Tuple<Class<?>, Object>> e: m.entrySet()) {
-				key = e.getKey();
-				Tuple<Class<?>, Object> t = e.getValue();
-				
-				Method um = User.class.getMethod(
-							"set" + 
-								key.substring(0, 1).toUpperCase() + 
-								key.substring(1), 
-							t.getLeft());
-				um.invoke(updateUser, t.getLeft().cast(t.getRight()));
-			}
-		} catch (NoSuchMethodException | IllegalArgumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SecurityException | IllegalAccessException | 
-				InvocationTargetException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		sessionFactory.getCurrentSession().update(user);
+		
+		return sessionFactory.getCurrentSession().get(User.class, pk);
+	}
 
-		sessionFactory.getCurrentSession().update(updateUser);
+	@Override
+	public User deleteUser(Integer pk) {
+		User u = sessionFactory.getCurrentSession().get(User.class, pk);
+		
+		sessionFactory.getCurrentSession().delete(u);
+		
+		return u;
+	}
 
-		return updateUser;
+	@Override
+	public List<Move> readMatches(Integer pk) {
+		Session s = sessionFactory.getCurrentSession();
+		
+//		String hql = "from Match where matchid = :matchid";
+		Query q = s.createQuery(hql);
+		q.setInteger("matchId", pk);
+
+		return q.list();
+
 	}
 	
 }
