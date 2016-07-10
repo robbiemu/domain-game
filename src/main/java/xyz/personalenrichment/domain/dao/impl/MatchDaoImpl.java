@@ -97,13 +97,14 @@ public class MatchDaoImpl implements MatchDao {
 	public User readWinner(Integer pk) {
 		Session s = sessionFactory.getCurrentSession();
 		
-		String hql = "from ma.winner where matchid = :matchid";
+		String hql = "select ma.winner from Match ma where ma.matchid = :matchid";
 		Query q = s.createQuery(hql);
 		q.setInteger("matchId", pk);
 
 		return (User) q.list().get(0);
 	}
 
+	// lists players of a match
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> readPlayers(Integer pk) {
@@ -116,6 +117,7 @@ public class MatchDaoImpl implements MatchDao {
 		return q.list();
 	}
 
+	// adds a player to a match
 	@Override
 	public Match createPlayer(Integer pk, Integer upk) {
 		Session s = sessionFactory.getCurrentSession();
@@ -131,16 +133,24 @@ public class MatchDaoImpl implements MatchDao {
 		return m;
 	}
 
+	// removes the player from the match
 	@Override
 	public Match deletePlayer(Integer pk, Integer upk) {
 		Session s = sessionFactory.getCurrentSession();
+
+		Match m = s.get(Match.class, pk);
+		User p = s.get(User.class, upk);
 		
 		String hql = "from MatchPlayerJt mp where mp.match.matchid = :matchId and mp.user.userid = :userid";
 		Query q = s.createQuery(hql);
 		q.setInteger("matchId", pk);
 		q.setInteger("userId", upk);
+
+		MatchPlayerJt mp = (MatchPlayerJt) q.list().get(0);
+
+		s.delete(mp);
 		
-		return s.get(Match.class, pk);
+		return m;
 	}
 	
 }
