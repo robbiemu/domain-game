@@ -3,10 +3,12 @@ package xyz.personalenrichment.domain;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import xyz.personalenrichment.domain.model.User;
 
 public class Util {
+	public static ObjectMapper ObjectMapper = new ObjectMapper();
 	/**
 	 * 
 	 * @param criteria - url string after ? with name=value pairs for criteria to interface a db model object
