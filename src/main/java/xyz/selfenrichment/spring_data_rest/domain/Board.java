@@ -1,8 +1,10 @@
-package xyz.personalenrichment.spring_data_rest.domain;
+package xyz.selfenrichment.spring_data_rest.domain;
 
 import java.util.Random;
 
-import static xyz.personalenrichment.spring_data_rest.domain.Defs.*;
+import xyz.selfenrichment.spring_data_rest.Tuple;
+
+import static xyz.selfenrichment.spring_data_rest.domain.Defs.*;
 
 public class Board {
 	static Random rnd = new Random();
@@ -67,9 +69,8 @@ public class Board {
 						board[x][y] = EMPTY_BOARDMARK;
 					} else if(board[x][y] == EMPTY_BOARDMARK) {
 						board[x][y] = (player == PLAYER_A)? PLAYER_A_BOARDMARK: PLAYER_B_BOARDMARK;
-					} else {
-//					} else if( ((player == PLAYER_A) && (board[x][y] == PLAYER_B_BOARDMARK)) || 
-//							((player == PLAYER_B) && (board[x][y] == PLAYER_A_BOARDMARK))) {
+					} else if( ((player == PLAYER_A) && (board[x][y] == PLAYER_B_BOARDMARK)) || 
+							((player == PLAYER_B) && (board[x][y] == PLAYER_A_BOARDMARK))) {
 						board[x][y] =EMPTY_BOARDMARK;
 					}
 			}
@@ -81,7 +82,7 @@ public class Board {
 		return board;
 	}
 	
-	class IllegalMoveException extends Exception {
+	static class IllegalMoveException extends Exception {
 	    public IllegalMoveException(String message) {
 	        super(message);
 	    }
