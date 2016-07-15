@@ -14,7 +14,6 @@ import xyz.personalenrichment.domain.dao.UserDao;
 import xyz.personalenrichment.domain.model.Match;
 import xyz.personalenrichment.domain.model.Move;
 import xyz.personalenrichment.domain.model.User;
-import xyz.personalenrichment.domain.tx.DBTXResponse;
 
 @RestController
 @RequestMapping("/users")

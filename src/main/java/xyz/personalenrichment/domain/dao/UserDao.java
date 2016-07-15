@@ -4,8 +4,6 @@ import java.util.List;
 
 import xyz.personalenrichment.domain.model.Move;
 import xyz.personalenrichment.domain.model.User;
-import xyz.personalenrichment.domain.tx.DBTXResponse;
-
 
 public interface UserDao {
 	public List<User> readUsers();

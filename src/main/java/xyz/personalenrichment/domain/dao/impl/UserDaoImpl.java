@@ -16,13 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import xyz.personalenrichment.domain.Tuple;
-import xyz.personalenrichment.domain.Util;
 import xyz.personalenrichment.domain.dao.UserDao;
 import xyz.personalenrichment.domain.model.Match;
 import xyz.personalenrichment.domain.model.Move;
 import xyz.personalenrichment.domain.model.User;
-import xyz.personalenrichment.domain.tx.DBTXResponse;
 
 @Transactional
 @Repository
