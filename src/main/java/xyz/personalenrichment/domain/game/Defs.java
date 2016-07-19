@@ -1,4 +1,4 @@
-package xyz.personalenrichment.spring_data_rest.domain;
+package xyz.personalenrichment.domain.game;
 
 public class Defs {
 	public static final Short PLAYER_A_BOARDMARK = 1;

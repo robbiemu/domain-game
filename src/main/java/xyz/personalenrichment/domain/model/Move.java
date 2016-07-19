@@ -1,4 +1,4 @@
-package xyz.selfenrichment.spring_data_rest.model;
+package xyz.personalenrichment.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,10 +7,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name="moves")
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Move extends BaseModel {
 	@ManyToOne Match match;
 

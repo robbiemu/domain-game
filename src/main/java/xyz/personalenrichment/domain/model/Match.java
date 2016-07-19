@@ -1,4 +1,4 @@
-package xyz.selfenrichment.spring_data_rest.model;
+package xyz.personalenrichment.domain.model;
 
 import java.util.Date;
 
@@ -12,10 +12,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name="matches")
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Match extends BaseModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "completed_on")

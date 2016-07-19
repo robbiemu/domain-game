@@ -1,8 +1,10 @@
-package xyz.personalenrichment.spring_data_rest.domain;
+package xyz.personalenrichment.domain.game;
 
 import java.util.Random;
 
-import static xyz.personalenrichment.spring_data_rest.domain.Defs.*;
+import xyz.personalenrichment.domain.Tuple;
+
+import static xyz.personalenrichment.domain.game.Defs.*;
 
 public class Board {
 	static Random rnd = new Random();
@@ -81,7 +83,7 @@ public class Board {
 		return board;
 	}
 	
-	class IllegalMoveException extends Exception {
+	static class IllegalMoveException extends Exception {
 	    public IllegalMoveException(String message) {
 	        super(message);
 	    }
