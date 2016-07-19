@@ -1,4 +1,4 @@
-package xyz.selfenrichment.spring_data_rest;
+package xyz.personalenrichment.domain;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;

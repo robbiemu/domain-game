@@ -1,0 +1,15 @@
+<div id="home_outer">
+    <div id="lfg">
+        <h3>Looking for game</h3>
+        <ul ng-repeat="player in players_lfg track by player.enqueueTime">
+            <li><a ng-href="play(player)">{{player.name}}</a></li>
+        </ul>
+        <input type="button" ng-click="enqueue()" />
+    </div>
+    <div id="playing">
+        <h3>Now Playing</h3>
+        <ul ng-repeat="game in ongoing_games">
+            <li><a ng-href="watch(game)">{{game.left_player}} v. {{game.right_player}}</a></li>
+        </ul>
+    </div>
+</div>

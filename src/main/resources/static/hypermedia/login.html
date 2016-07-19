@@ -1,0 +1,25 @@
+<div id="login_outer">
+    <form id="login" class="login" ng-submit="login()">
+	    <ul class="dotless">
+	    	<li>
+	    	    <label for="email" class="login">Email address</label>
+	        	<input id="email" class="login" ng-model="user.email" type="text" />
+	    	</li>
+	    	<li>
+	    	    <label for="username" class="login">Username</label>
+	        	<input id="username" class="login" ng-model="user.username" type="text" />
+	        </li>
+	    	<li>
+	    	    <label for="password" class="login">Password</label>
+	        	<input id="password" class="login" ng-model="user.password" type="password" />
+	    	</li>
+	    	<li>
+	    	    <label for="display" class="login">Display name</label>
+	        	<input id="display" class="login" ng-model="user.display" type="text" />
+	    	</li>
+	    	<li>
+	            <input id="submit" class="login" value="Submit" type="submit" />
+	    	</li>
+	    </ul>
+    </form>
+</div>
