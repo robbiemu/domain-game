@@ -17,9 +17,6 @@ import xyz.personalenrichment.tx.Move;
 @Component
 public class GameHandler extends TextWebSocketHandler {
 	@Autowired
-	BoardService bs;
-
-	@Autowired
 	GameService gs;
 	
 	@Autowired

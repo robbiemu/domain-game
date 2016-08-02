@@ -16,6 +16,9 @@ import xyz.personalenrichment.tx.Move;
 @Service
 public class GameService {
 	@Autowired
+	BoardService bs;
+
+	@Autowired
 	SessionComponent sc;
 	
 	Map<WebSocketSession, User> game_queue = new ConcurrentHashMap<WebSocketSession, User>();
@@ -26,8 +29,8 @@ public class GameService {
 	}
 
 	public void startGame(String game_index) {
-		// TODO Auto-generated method stub
-		
+		game_queue.remove(sc.getSessionFromId(game_index));
+		// TODO - build the board, start the game
 	}
 
 	public void queue(WebSocketSession session) {

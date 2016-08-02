@@ -37,4 +37,13 @@ public class SessionComponent {
 		return su.get(session);
 	}
 
+	public WebSocketSession getSessionFromId(String game_index) {
+		for(WebSocketSession s: sessions) {
+			if(s.getId().equals(game_index)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
 }
