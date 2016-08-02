@@ -1,3 +1,3 @@
-default.configuration=spring_data_rest
+default.configuration=domain-game
 eclipse.preferences.version=1
 hibernate3.enabled=true

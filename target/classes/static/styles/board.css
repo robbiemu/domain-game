@@ -1,0 +1,21 @@
+#board {
+	margin: 0 auto;
+}
+
+.domain-col, .domain-row {
+	height: 1em;
+}
+
+.domain-col {
+	display: inline-block;
+	width: 1em;
+	padding: 0;
+	margin: 0;
+	border: solid var(--bright-grey) thin;
+}
+
+.player_left {background-color: red;}
+.player_right {background-color: green;}
+.tower_left { background-color: white; }
+.tower_right { background-color: white; }
+.unset { background-color: grey; }

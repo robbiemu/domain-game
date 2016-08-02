@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="domain">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="domain, the game">
+
+    <title></title>
+
+
+    <link rel="apple-touch-icon" href="resources/game.png">
+    <link rel="icon" type="image/png" href="resources/game.png" sizes="512x512">
+        
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- jquery, jquery-confirm dialogs -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/2.5.1/jquery-confirm.min.js"></script>
+
+    <!-- bootstrap, w/ material design -->
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap Material Design -->
+    <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.10/js/material.min.js" integrity="sha256-uZbIqasulk7Y9yEwknbeQ0FpF3aUhtPwuggbpvQaI8Y=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.10/css/bootstrap-material-design.css" integrity="sha256-GzgFnk3KRm+33MfFPkcgWbzTNcjA1X7dUaeEGCSkL/E=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.10/css/ripples.css" integrity="sha256-HWFbKeqGJOmqKS0A7JtQHtBTNAE9KwYGy+kN/xE45Uo=" crossorigin="anonymous">
+
+    <!-- angular -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+
+    <!-- module -->
+    <script src="scripts/domain.js"></script>
+
+    <script src="scripts/res_service.js"></script>
+
+    <script src="scripts/routes.js"></script>
+
+    <script src="scripts/controllers/home_controller.js"></script>
+    <script src="scripts/controllers/nav_controller.js"></script>
+
+    <script src="scripts/controllers/domain_controller.js"></script>
+    
+</head>
+<body>
+    <div ng-include src="'hypermedia/nav_template.html'"></div>
+    <ng-view></ng-view>
+</body>
+</html>

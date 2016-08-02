@@ -1,0 +1,15 @@
+:root{
+	--bright-grey: rgb(240,240,240);
+	font-size: 12pt;	
+}
+
+.navbar-header {
+	font-size: 3em;
+	padding: 0 1em;
+}
+
+.nav {
+	font-weight: 100;
+	font-size: 2em;
+	padding: 0 1em;
+}

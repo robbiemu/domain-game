@@ -1,0 +1,10 @@
+<div id="domain"  class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2><span class="{{players.css.left}}">{{players.left}}</span> v <span class="{{players.css.right}}">{{players.right}}</span></h2>
+        <div id="board">
+            <div id="domain-row-{{indexX}}" class="domain-row" ng-repeat="(indexX,x) in rows">
+                <div id="domain-col-{{indexY}}" class="domain-col {{get_CSS_for_cel(indexX, indexY)}}" ng-repeat="(indexY,y) in cols"></div>
+            </div>
+        </div>
+    </div>
+</div>
