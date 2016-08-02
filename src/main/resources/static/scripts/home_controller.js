@@ -1,1 +1,0 @@
-angular.module(MODULE_NAME).controller('HomeController', function () {/* do nothing */});

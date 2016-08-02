@@ -1,40 +1,39 @@
-//require('./constants')
-
-angular.module(MODULE_NAME)
-    .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider.when('/', {
-                templateUrl: HOME_PAGE,
-                controller: 'HomeController',
-                controllerAs: 'homeController',
+(function(){
+    angular.module(MODULE_NAME).config(['$routeProvider', 'StylesDir', 'ScriptsDir',
+        function config ($routeProvider, StylesDir, ScriptsDir) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'hypermedia/home/home_template.html',
+                controller: 'homeController',
                 resolve: {
-                    factory: checkRouting
+                    factory: function (Res, $rootScope) {
+                        controllersAndServices('home', Res, {}, $rootScope)
+                    }
                 }
             })
-            .when('/admin', {
-                templateUrl: ADMIN_PAGE,
-                controller: 'HomeController',
-                controllerAs: 'homeController',
+            .when('/play', {
+                templateUrl: 'hypermedia/domain/play_template.html',
+                controller: 'domainController',
                 resolve: {
-                    factory: checkRouting
+                    factory: function (Res, $rootScope) {
+                        controllersAndServices('play', Res, { styles: StylesDir + 'board.css' }, $rootScope)
+                    }
                 }
             })
-            .when('/login', {
-                templateUrl: LOGIN_PAGE,
-                controller: 'UserController',
-                controllerAs: 'userController'
-            })
-            .when('/register', { redirectTo: '/login' })
             .otherwise('/')
         }
-   ])
+    ])
 
-const checkRouting = function ($q, $rootScope, $location, Auth) {
-        if (!Auth.isLoggedIn()) {
-            console.log(`${$location.path()} - route denied. User not logged in.`);
-            event.preventDefault();
-            $location.path('/login');
+    const controllersAndServices = function (route_name, Res, Routes, $rootScope) {
+        Res.clean_scripts()
+        Res.clean_styles()
+
+        if ('scripts' in Routes) {
+            Res.script(Routes.scripts)
         }
-        else {
-            console.log(`${$location.path()} - routing, User is logged in. IF all this is working, remove this message.`);
+        if ('styles' in Routes) {
+            Res.style(Routes.styles)
         }
-}
+    }
+    
+})()

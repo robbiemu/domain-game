@@ -1,0 +1,1 @@
+angular.module(MODULE_NAME).controller('navController', function() { })
