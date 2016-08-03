@@ -154,7 +154,7 @@ public class Board {
 		}
 		
 		/* Now we have a set of points that should shield segments of the board from change, and
-		 * a fully changed board. Time to preserve those quadrants. */
+		 * a fully changed board. Time to selectively preserve in those quadrants. */
 		if(zztowers.size() > 0) {
 			for (Tuple<Short, Short> t: zztowers) {
 				for(short y = start_y; y <= t.getRight(); y++) {

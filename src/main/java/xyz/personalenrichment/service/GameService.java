@@ -24,9 +24,6 @@ import xyz.personalenrichment.tx.Move;
 @Service
 public class GameService {
 	@Autowired
-	BoardService bs;
-
-	@Autowired
 	SessionComponent sc;
 	
 	Gson gson = new GsonBuilder().create(); 
