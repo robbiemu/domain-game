@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import xyz.personalenrichment.entity.User;
-import xyz.personalenrichment.service.BoardService;
 import xyz.personalenrichment.service.GameService;
 import xyz.personalenrichment.tx.Move;
 
@@ -34,31 +33,30 @@ public class GameHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//System.out.println(message.getPayload());
 		if ("CLOSE".equalsIgnoreCase(message.getPayload())) {
+			System.out.println("Session closed. Current connections: " + sc.getSessionsCount());
+
 			session.close();
 			sc.remove(session);
-			System.out.println("Session closed. Current connections: " + sc.getSessionsCount());
-		} else if (message.getPayload().equalsIgnoreCase("LIST_GAMES")) {
+		} else if (message.getPayload().equalsIgnoreCase("LIST_QUEUED_GAMES")) {
 			gs.listGames();
 		} else if (message.getPayload().equalsIgnoreCase("ENQUEUE_FOR_GAME")) {
 			User player = sc.getPlayerFromSession(session);
 			if(player == null) {
 				// TODO - txError no player associated with session yet
 			}
-			gs.queue(session);
 			System.out.println("received ENQUEUE_FOR_GAME (from player: "+ player.getUsername() + ")");
+
+			gs.queue(session);
 		} else if (message.getPayload().startsWith("ENROLL_IN_GAME")) {
 			User player = sc.getPlayerFromSession(session);
 			if(player == null) {
 				// TODO - txError no player associated with session yet
 			}
 			String[] jsg = message.getPayload().split(" ", 2); // jsg[1] is the game index to request
-			// we start game at this point:
-			// generate board
-			gs.startGame(jsg[1]);	
 
 			System.out.println("received ENROLL_IN_GAME (from player: "+ player.getUsername() + ", game:" + jsg[1] + ")");
 
-			// return message with board and begin flag
+			gs.startGame(jsg[1], session);	
 		} else if (message.getPayload().startsWith("PROCESS_MOVE")) {
 			User player = sc.getPlayerFromSession(session);
 			if(player == null) {
@@ -66,12 +64,13 @@ public class GameHandler extends TextWebSocketHandler {
 			}
 			String[] jsm = message.getPayload().split(" ", 2);
 			Move m = gson.fromJson(jsm[1], Move.class);
-			
-			System.out.println("received MOVE (from player: "+ player.getUsername() +"): " + m);
 
+			System.out.println("received MOVE (from player: "+ player.getUsername() +"): " + m);
+			
 			m.setPlayer(player.getUsername());
 			
-			gs.processMove(m);
+			gs.processMove(session, m);
 		}
 	}
+	
 }
