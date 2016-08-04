@@ -10,7 +10,7 @@ angular.module(MODULE_NAME).controller('homeController', function($scope, Auth, 
 	})
 
 	$scope.queue = function () {
-		Socket.send(GAME_SOCKET, ENQUEUE_FOR_GAME)
+		Socket.send(GAME_SOCKET, QUEUE_FOR_GAME)
 	}
 
 	$scope.$on('$locationChangeSuccess', function () {

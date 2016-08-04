@@ -8,18 +8,14 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import xyz.personalenrichment.component.GameHandler;
-import xyz.personalenrichment.component.UserHandler;
+import xyz.personalenrichment.component.SocketHandler;
 
 @SpringBootApplication
 @EnableWebSocket
 @EnableScheduling
 public class DomainGameApplication implements WebSocketConfigurer {
 	@Autowired
-	GameHandler gameHandler;
-
-	@Autowired
-	UserHandler userHandler;
+	SocketHandler socketHandler;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DomainGameApplication.class, args);
@@ -27,7 +23,6 @@ public class DomainGameApplication implements WebSocketConfigurer {
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry handlerRegistry) {
-		handlerRegistry.addHandler(gameHandler, "/game").setAllowedOrigins("*");
-		handlerRegistry.addHandler(userHandler, "/user").setAllowedOrigins("*");
+		handlerRegistry.addHandler(socketHandler, "/domain").setAllowedOrigins("*");
 	}
 }

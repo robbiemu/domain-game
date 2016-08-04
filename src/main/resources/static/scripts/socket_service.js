@@ -1,12 +1,13 @@
 angular.module(MODULE_NAME).service('Socket', function ($rootScope, $websocket) {
-    const userStream = $websocket('ws://localhost:8080/user')
-    const gameStream = $websocket('ws://localhost:8080/game')
+/*    const userStream = $websocket('ws://localhost:8080/user')
+    const gameStream = $websocket('ws://localhost:8080/game') */
+    const stream = $websocket(`${DOMAIN_SERVER}${DEFAULT_STREAM}`)
 
     function getFirstWord (text) {
         return (text.indexOf(' ') > -1)? text.substring(0, text.indexOf(' ')): text
     }
 
-    userStream.onMessage(function(message) {
+    stream.onMessage(function(message){
         switch (getFirstWord(message.data)) {
             case LOGIN_SUCCESS:
                 $rootScope.$broadcast(LOGIN_SUCCESS, true)
@@ -25,28 +26,13 @@ angular.module(MODULE_NAME).service('Socket', function ($rootScope, $websocket) 
         }
     })
 
-    gameStream.onMessage(function(message) {
-        console.dir(message)
-    })
-
     return {
-        send: function (stream, message) {
-            if (stream === USER_SOCKET) {
-                userStream.send(message)
-            } else {
-                gameStream.send(message)
-            }
+        send: function (requested_stream, message) {
+            stream.send(requested_stream + ' ' + message)
         },
-
-        close: function(stream) {
-            if (stream === USER_SOCKET) {
-                userStream.send('CLOSE')
-                userStream = null
-            } else {
-                gameStream.send('CLOSE')
-                gameStream = null
-            }
+        close: function () {
+            stream.send(CLOSE)
+            stream=null
         }
-
     }
 })
