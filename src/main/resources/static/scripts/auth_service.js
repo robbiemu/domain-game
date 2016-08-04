@@ -3,13 +3,16 @@ angular.module(MODULE_NAME).factory('Auth', function () {
 
     return {
         setUser : function (aUser) {
-            user = aUser;
+            if((aUser !== null) && !('isAdmin' in aUser && aUSer.isAdmin)) {
+                aUser.isAdmin = false
+            }
+            user = aUser
         },
         isLoggedIn : function () {
-            return (user)? user: false;
+            return (user)? user: false
         },
         isAdmin : function () {
-            return user.isAdmin;
+            return user.isAdmin
         }
     }
 })

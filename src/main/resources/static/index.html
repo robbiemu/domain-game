@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="domain, the game">
 
-    <title></title>
+    <title>domain - the game</title>
 
 
     <link rel="apple-touch-icon" href="resources/game.png">
@@ -18,6 +18,7 @@
     <!-- jquery, jquery-confirm dialogs -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/2.5.1/jquery-confirm.min.js"></script>
+	<link rel="stylesheet" href="scripts/node_modules/jquery-confirm/css/jquery-confirm.css">
 
     <!-- bootstrap, w/ material design -->
     <!-- Material Design fonts -->
@@ -33,10 +34,12 @@
     <!-- angular -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+    <script src="scripts/node_modules/angular-websocket/dist/angular-websocket.js"></script>
 
     <!-- module -->
     <script src="scripts/domain.js"></script>
 
+    <script src="scripts/socket_service.js"></script>
     <script src="scripts/res_service.js"></script>
     <script src="scripts/auth_service.js"></script>
 
@@ -44,12 +47,13 @@
 
     <script src="scripts/controllers/home_controller.js"></script>
     <script src="scripts/controllers/nav_controller.js"></script>
+    <script src="scripts/controllers/user_controller.js"></script>
 
     <script src="scripts/controllers/domain_controller.js"></script>
     
 </head>
 <body>
-    <div ng-include src="'hypermedia/nav_template.html'"></div>
+    <div ng-include ng-controller="navController" src="'hypermedia/nav_template.html'"></div>
     <ng-view></ng-view>
 </body>
 </html>

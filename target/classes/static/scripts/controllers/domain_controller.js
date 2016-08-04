@@ -1,4 +1,6 @@
 angular.module(MODULE_NAME).controller('domainController', function($scope) {	
+	console.log('domainController')
+	
 	const domain = this
 	
 	domain.board = {}

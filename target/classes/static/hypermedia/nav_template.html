@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default navbar-static-top">
         <div class="navbar-header">domain</div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#/">home</a></li>
+            <li ng-repeat="d in destinations"><a ng-href="{{d.path}}">{{d.text}}</a></li>
         </ul>
     </nav>
 </div>

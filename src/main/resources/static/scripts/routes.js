@@ -6,8 +6,8 @@
                 templateUrl: 'hypermedia/home/home_template.html',
                 controller: 'homeController',
                 resolve: {
-                    factory: function (Res, $rootScope) {
-                    	checkRouting($q, $rootScope, $location, Auth, checkAdmin)
+                    factory: function (Res, Auth, $location, $rootScope) {
+                    	checkRouting($rootScope, $location, Auth)
                         controllersAndServices(Res, {}, $rootScope)
                     }
                 }
@@ -34,8 +34,8 @@
                 templateUrl: 'hypermedia/domain/play_template.html',
                 controller: 'domainController',
                 resolve: {
-                    factory: function (Res, $rootScope) {
-                    	checkRouting($q, $rootScope, $location, Auth, checkAdmin)
+                    factory: function (Res, Auth, $location, $rootScope) {
+                    	checkRouting($rootScope, $location, Auth)
                         controllersAndServices(Res, { styles: StylesDir + 'board.css' }, $rootScope)
                     }
                 }
@@ -56,14 +56,14 @@
         }
     }
     
-    const checkRouting = function ($q, $rootScope, $location, Auth, checkAdmin=false, fallback_url='/login') {
+    const checkRouting = function ($rootScope, $location, Auth, checkAdmin=false, fallback_url='/login') {
     	let pass = true
     	if (!Auth.isLoggedIn() || (checkAdmin && !Auth.isAdmin())) {
             	pass = false
     	}
     	if(!pass) {
     	    console.log(`${$location.path()} - route denied. User not logged in or authorized.`)
-    	    event.preventDefault()
+    	    //event.preventDefault()
     	    $location.path(fallback_url)        	
     	}
     }
