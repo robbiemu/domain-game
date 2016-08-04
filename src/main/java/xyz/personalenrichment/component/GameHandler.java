@@ -40,12 +40,18 @@ public class GameHandler extends TextWebSocketHandler {
 		} else if (message.getPayload().equalsIgnoreCase("LIST_QUEUED_GAMES")) {
 			gs.listGames(session);
 			System.out.println("received LIST_QUEUED_GAMES");
+			System.out.println(session);
+			System.out.println(sc.su);
 			System.out.println("received LIST_QUEUED_GAMES (from player: "+ sc.getPlayerFromSession(session).getUsername() + ")");
 		} else if (message.getPayload().equalsIgnoreCase("SUBSCRIBE_LIST_GAME_QUEUE")) {
 			gs.subscribeListGameQueue(session);
 			gs.listGames(session);
 		} else if (message.getPayload().equalsIgnoreCase("SUBSCRIBE_LIST_ONGOING_GAMES")) {
 			gs.subscribeListOngoingGames(session);
+		} else if (message.getPayload().equalsIgnoreCase("UNSUBSCRIBE_LIST_GAME_QUEUE")) {
+			gs.unsubscribeListGameQueue(session);
+		} else if (message.getPayload().equalsIgnoreCase("UNSUBSCRIBE_LIST_ONGOING_GAMES")) {
+			gs.unsubscribeListOngoingGames(session);
 		} else if (message.getPayload().equalsIgnoreCase("GAME_LIST_CHANGE")) {
 
 		} else if (message.getPayload().equalsIgnoreCase("ENQUEUE_FOR_GAME")) {

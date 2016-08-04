@@ -97,6 +97,14 @@ public class GameService {
 		ongoing_game_subscribers.add(session);
 	}
 
+	public void unsubscribeListGameQueue(WebSocketSession session) {
+		game_queue_subscribers.remove(session);
+	}
+
+	public void unsubscribeListOngoingGames(WebSocketSession session) {
+		ongoing_game_subscribers.remove(session);
+	}
+	
 	private void notify_game_queue_subscribers() throws IOException {
 		TextMessage msg = new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(game_queue));
 		for(WebSocketSession s: game_queue_subscribers) {
