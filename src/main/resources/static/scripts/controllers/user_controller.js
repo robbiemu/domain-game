@@ -12,7 +12,7 @@ angular.module(MODULE_NAME).controller('userController', function($scope, $locat
 	}
 
 	$scope.login = function () {
-		Socket.send(USER_SOCKET, "LOGIN " + JSON.stringify($scope.user))
+		Socket.send(USER_SOCKET,  LOGIN + ' ' + JSON.stringify($scope.user))
 	}
 
 	$scope.$on(LOGIN_SUCCESS, function (msg) { 
@@ -25,7 +25,7 @@ angular.module(MODULE_NAME).controller('userController', function($scope, $locat
 	})
 
 	$scope.register = function () {
-		Socket.send(USER_SOCKET, "REGISTER " + JSON.stringify($scope.user))
+		Socket.send(USER_SOCKET, REGISTER  + ' ' + JSON.stringify($scope.user))
 	}
 
 	$scope.$on(REGISTRATION_SUCCESS, function (msg) { 

@@ -31,14 +31,23 @@ public class GameHandler extends TextWebSocketHandler {
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		//System.out.println(message.getPayload());
+		System.out.println(message.getPayload());
 		if ("CLOSE".equalsIgnoreCase(message.getPayload())) {
 			System.out.println("Session closed. Current connections: " + sc.getSessionsCount());
 
 			session.close();
 			sc.remove(session);
 		} else if (message.getPayload().equalsIgnoreCase("LIST_QUEUED_GAMES")) {
-			gs.listGames();
+			gs.listGames(session);
+			System.out.println("received LIST_QUEUED_GAMES");
+			System.out.println("received LIST_QUEUED_GAMES (from player: "+ sc.getPlayerFromSession(session).getUsername() + ")");
+		} else if (message.getPayload().equalsIgnoreCase("SUBSCRIBE_LIST_GAME_QUEUE")) {
+			gs.subscribeListGameQueue(session);
+			gs.listGames(session);
+		} else if (message.getPayload().equalsIgnoreCase("SUBSCRIBE_LIST_ONGOING_GAMES")) {
+			gs.subscribeListOngoingGames(session);
+		} else if (message.getPayload().equalsIgnoreCase("GAME_LIST_CHANGE")) {
+
 		} else if (message.getPayload().equalsIgnoreCase("ENQUEUE_FOR_GAME")) {
 			User player = sc.getPlayerFromSession(session);
 			if(player == null) {

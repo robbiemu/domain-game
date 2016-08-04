@@ -31,6 +31,9 @@ public class GameService {
 	Map<WebSocketSession, User> game_queue = new ConcurrentHashMap<WebSocketSession, User>();
 	List<Game> ongoing_games = new ArrayList<>();
 
+	List<WebSocketSession> game_queue_subscribers = new ArrayList<>();
+	List<WebSocketSession> ongoing_game_subscribers = new ArrayList<>();
+
 	public void processMove(WebSocketSession session, Move m) throws IOException {
 		String id = session.getId();
 		for(Game g: ongoing_games) {
@@ -45,6 +48,8 @@ public class GameService {
 					TextMessage msg = new TextMessage("GAME_END " + gson.toJson(g));
 					g.getPlayerLeftSession().sendMessage(msg);
 					g.getPlayerRightSession().sendMessage(msg);
+
+					notify_ongoing_game_subscribers();
 				} else {
 					TextMessage msg = new TextMessage("GAME_MOVE " + gson.toJson(g));
 					g.getPlayerLeftSession().sendMessage(msg);
@@ -66,21 +71,43 @@ public class GameService {
 		TextMessage msg = new TextMessage("START_GAME " + gson.toJson(g));
 		origin_session.sendMessage(msg);
 		session.sendMessage(msg);
+
+		notify_game_queue_subscribers();
+		notify_ongoing_game_subscribers();
 	}
 
-	public void queue(WebSocketSession session) {
+	public void queue(WebSocketSession session) throws IOException {
 		if(game_queue.containsKey(session)) {
 			game_queue.remove(session);
 		}
 		game_queue.put(session, sc.getPlayerFromSession(session));
+		
+		notify_game_queue_subscribers();
 	}                       
 
-	public Set<String> listGames() {
-		Set<String> rs = new HashSet<>();
-		for(WebSocketSession s: game_queue.keySet()) {
-			rs.add(s.getId());
-		}
-		return rs;
+	public void listGames(WebSocketSession session) throws IOException {
+		session.sendMessage( new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(game_queue)) );
 	}
 
+	public void subscribeListGameQueue(WebSocketSession session) {
+		game_queue_subscribers.add(session);
+	}
+
+	public void subscribeListOngoingGames(WebSocketSession session) {
+		ongoing_game_subscribers.add(session);
+	}
+
+	private void notify_game_queue_subscribers() throws IOException {
+		TextMessage msg = new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(game_queue));
+		for(WebSocketSession s: game_queue_subscribers) {
+			s.sendMessage(msg);
+		}
+	}
+
+	private void notify_ongoing_game_subscribers() throws IOException {
+		TextMessage msg = new TextMessage("ONGOING_GAME_CHANGE " + gson.toJson(ongoing_games));
+		for(WebSocketSession s: ongoing_game_subscribers) {
+			s.sendMessage(msg);
+		}
+	}
 }

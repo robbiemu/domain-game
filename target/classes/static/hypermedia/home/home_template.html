@@ -1,3 +1,12 @@
 <div id="home">
-    <button class="btn btn-primary" link="#/play">play</button>
+    <h3>Game queue</h3>
+    <ul>
+        <li ng-repeat="game in games">
+            <p>
+                {{game.id}}
+            <button class="btn btn-primary" link="#/play/{{game.id}}">play</button>
+            </p>
+        </li>
+    </ul>
+    <button class="btn btn-primary" ng-click="queue()">join queue</button>    
 </div>

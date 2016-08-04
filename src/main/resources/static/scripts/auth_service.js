@@ -13,6 +13,9 @@ angular.module(MODULE_NAME).factory('Auth', function () {
         },
         isAdmin : function () {
             return user.isAdmin
+        },
+        getUser : function () {
+            return user
         }
     }
 })
