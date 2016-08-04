@@ -95,7 +95,7 @@ public class GameComponent {
             }            
         }
 
-        System.out.println("Session "+session+" subscription status to " + subscription + " set to " + (state?"SUBSCRIBED":"UNSUBSCRIBED"));
+        System.out.println("Session "+session.getId()+" subscription status to " + subscription + " set to " + (state?"SUBSCRIBED":"UNSUBSCRIBED"));
     }
 
     private void queueForGame(WebSocketSession session) throws IOException {
@@ -103,7 +103,7 @@ public class GameComponent {
         if(player == null) {
             // TODO - txError no player associated with session yet
         }
-        System.out.println("received QUEUE_FOR_GAME (from player: "+ player.getUsername() + ")");
+        System.out.println(player.getUsername() + " queued for game");
 
         gs.queue(session);
     }
@@ -115,9 +115,8 @@ public class GameComponent {
         }
         String[] jsg = message.getPayload().split(" ", 2); // jsg[1] is the game index to request
 
-        System.out.println("received ENROLL_IN_GAME (from player: "+ player.getUsername() + ", game:" + jsg[1] + ")");
-
         gs.startGame(jsg[1], session);	
+        System.out.println( player.getUsername() + " joined game:" + jsg[1]);
     }
 
     private void processMove(WebSocketSession session, TextMessage message) throws IOException {
@@ -128,7 +127,7 @@ public class GameComponent {
         String[] jsm = message.getPayload().split(" ", 2);
         Move m = gson.fromJson(jsm[1], Move.class);
 
-        System.out.println("received PROCESS_MOVE (from player: "+ player.getUsername() +"): " + m);
+        System.out.println(player.getUsername() +" move " + m + " processed");
 
         m.setPlayer(player.getUsername());
 

@@ -2,9 +2,11 @@ package xyz.personalenrichment.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -86,7 +88,13 @@ public class GameService {
 	}                       
 
 	public void listGames(WebSocketSession session) throws IOException {
-		session.sendMessage( new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(game_queue)) );
+		Map<String,String> presentableGameQueue = new HashMap<>();
+		for(Entry<WebSocketSession, User> e : game_queue.entrySet()) {
+			presentableGameQueue.put(e.getKey().getId(), e.getValue().getUsername());
+		}
+		TextMessage msg = new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(presentableGameQueue));
+
+		session.sendMessage( msg );
 	}
 
 	public void subscribeListGameQueue(WebSocketSession session) {
@@ -106,7 +114,12 @@ public class GameService {
 	}
 	
 	private void notify_game_queue_subscribers() throws IOException {
-		TextMessage msg = new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(game_queue));
+		Map<String,String> presentableGameQueue = new HashMap<>();
+		for(Entry<WebSocketSession, User> e : game_queue.entrySet()) {
+			presentableGameQueue.put(e.getKey().getId(), e.getValue().getUsername());
+		}
+		TextMessage msg = new TextMessage("GAME_QUEUE_CHANGE " + gson.toJson(presentableGameQueue));
+
 		for(WebSocketSession s: game_queue_subscribers) {
 			s.sendMessage(msg);
 		}

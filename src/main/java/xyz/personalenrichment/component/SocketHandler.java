@@ -46,32 +46,28 @@ public class SocketHandler extends TextWebSocketHandler {
 		
 		String[] message_parts = message.getPayload().split(" ", 3);
 		
-		System.out.println("--------" + message.getPayload());
-
 		String handler = null;
-		if(message_parts[0] == null || message_parts[0].equals("")) {
-			System.out.println(UNKNOWN_HANDLER + " message did not split properly or lacked a handler");
-			session.sendMessage(new TextMessage(UNKNOWN_HANDLER + " message did not split properly or lacked a handler"));
-		} else {
-			handler = message_parts[0];
-		}
-		
 		String command = null;
-		if(message_parts[1] == null || message_parts[1].equals("")) {
-			System.out.println(UNKNOWN_COMMAND + " message did not split properly or lacked a command");
-			session.sendMessage(new TextMessage(UNKNOWN_COMMAND + " message did not split properly or lacked a command"));
-		} else {
-			command = message_parts[1];
-		}
-
 		String tx_body = null;
-		if(message_parts[2] == null) {
-			tx_body = "";
-		} else {
-			tx_body = " " + message_parts[2];
+		switch (message_parts.length) {
+			case 0:
+				System.out.println(UNKNOWN_HANDLER + " message did not split properly or lacked a handler");
+				session.sendMessage(new TextMessage(UNKNOWN_HANDLER + " message did not split properly or lacked a handler"));
+				return;
+			case 1:
+				System.out.println(UNKNOWN_COMMAND + " message did not split properly or lacked a command");
+				session.sendMessage(new TextMessage(UNKNOWN_COMMAND + " message did not split properly or lacked a command"));
+				return;
+			case 2:
+				handler = message_parts[0];
+				command = message_parts[1];
+				tx_body = "";
+				break;
+			case 3:
+				handler = message_parts[0];
+				command = message_parts[1];
+				tx_body = " " + message_parts[2];
 		}
-
-		System.out.println("========" + message.getPayload());
 		
 		if(command.equals(CLOSE)) {
         	System.out.println("processing " + CLOSE);
@@ -79,12 +75,8 @@ public class SocketHandler extends TextWebSocketHandler {
             return;
 		}
 		
-		System.out.println("++++++++" + message.getPayload());
-
 		TextMessage resultant_message = new TextMessage(command + tx_body);
-		
-		System.out.println(">>>>>>>>" + handler + " " + resultant_message.getPayload());
-		
+				
 		switch (handler) {
 			case (GAME_URI):
                 gc.handleTextMessage(session, resultant_message);

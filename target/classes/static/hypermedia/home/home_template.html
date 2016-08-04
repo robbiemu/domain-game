@@ -3,8 +3,8 @@
     <ul>
         <li ng-repeat="game in games">
             <p>
-                {{game.id}}
-            <button class="btn btn-primary" link="#/play/{{game.id}}">play</button>
+                {{game[Object.keys(game)]}}
+            <button class="btn btn-primary" link="#/play/{{Object.keys(game)}}">play</button>
             </p>
         </li>
     </ul>

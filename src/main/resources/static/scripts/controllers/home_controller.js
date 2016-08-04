@@ -6,7 +6,7 @@ angular.module(MODULE_NAME).controller('homeController', function($scope, Auth, 
 	Socket.send(GAME_SOCKET, SUBSCRIBE_LIST_GAME_QUEUE)
 
 	$scope.$on(GAME_QUEUE_CHANGE, function(msg, tx_response) {
-		$scope.games = tx_response.games
+		$scope.games = tx_response
 	})
 
 	$scope.queue = function () {

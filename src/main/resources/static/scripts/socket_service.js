@@ -8,7 +8,9 @@ angular.module(MODULE_NAME).service('Socket', function ($rootScope, $websocket) 
     }
 
     stream.onMessage(function(message){
-        switch (getFirstWord(message.data)) {
+        let command = getFirstWord(message.data)
+        console.dir(message.data)
+        switch (command) {
             case LOGIN_SUCCESS:
                 $rootScope.$broadcast(LOGIN_SUCCESS, true)
                 break
@@ -23,11 +25,17 @@ angular.module(MODULE_NAME).service('Socket', function ($rootScope, $websocket) 
                 $rootScope.$broadcast(REGISTRATION_FAILURE, 
                     JSON.parse(message.data.substring(message.data.indexOf(' '), message.data.length)))
                 break
+            case GAME_QUEUE_CHANGE:
+                $rootScope.$broadcast(GAME_QUEUE_CHANGE, 
+                    JSON.parse(message.data.substring(message.data.indexOf(' '), message.data.length)))                
+                break
+            case ONGOING_GAME_CHANGE:
         }
     })
 
     return {
         send: function (requested_stream, message) {
+            console.log(requested_stream + ' ' + message)
             stream.send(requested_stream + ' ' + message)
         },
         close: function () {
